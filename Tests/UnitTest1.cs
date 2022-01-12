@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Renword.StringSearchEngine;
+using RenwordDigital.StringSearchEngine;
 
 namespace Tests {
     public class Tests {

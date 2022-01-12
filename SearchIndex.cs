@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Renword.StringSearchEngine {
+namespace RenwordDigital.StringSearchEngine {
     public class SearchIndex {
         
         private const int SearchLength = 3;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Renword.StringSearchEngine.Exceptions {
+namespace RenwordDigital.StringSearchEngine.Exceptions {
     public class InvalidResourceLengthException : Exception {
         public InvalidResourceLengthException(string message) : base(message) {
         }

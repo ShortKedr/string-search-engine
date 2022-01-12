@@ -1,4 +1,4 @@
-﻿namespace Renword.StringSearchEngine {
+﻿namespace RenwordDigital.StringSearchEngine {
     public class Resource {
         private string _name;
         private string _searchString;

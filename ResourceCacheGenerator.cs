@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Renword.StringSearchEngine.Exceptions;
+using RenwordDigital.StringSearchEngine.Exceptions;
 
-namespace Renword.StringSearchEngine {
+namespace RenwordDigital.StringSearchEngine {
     public class ResourceCacheGenerator {
         
         private const int ResourceBucket = 16;

@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>net45</TargetFramework>
-        <AssemblyName>Renword.StringSearchEngine</AssemblyName>
-        <RootNamespace>Renword.StringSearchEngine</RootNamespace>
+        <AssemblyName>RenwordDigital.StringSearchEngine</AssemblyName>
+        <RootNamespace>RenwordDigital.StringSearchEngine</RootNamespace>
         <Nullable>disable</Nullable>
         <LangVersion>9</LangVersion>
     </PropertyGroup>
