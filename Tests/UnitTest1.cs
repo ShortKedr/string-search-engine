@@ -4,12 +4,7 @@ using NUnit.Framework;
 using Renword.StringSearchEngine;
 
 namespace Tests {
-    [TestFixture]
     public class Tests {
-        
-        [SetUp]
-        public void Setup() {
-        }
 
         [Test]
         public void Test1() {
@@ -37,9 +32,10 @@ namespace Tests {
 
             SearchIndex searchIndex = new SearchIndex(resources);
 
-            List<Resource> searchResult = searchIndex.GetSearchResult("and");
+            string searchString = "and";
+            List<Resource> searchResult = searchIndex.GetSearchResult(searchString);
 
-            Console.WriteLine("Search result:");
+            Console.WriteLine($"Search result for '{searchString}':");
             List<string> result = new List<string>();
             for (int i = 0; i < searchResult.Count; i++) {
                 Console.WriteLine(searchResult[i].Name);
