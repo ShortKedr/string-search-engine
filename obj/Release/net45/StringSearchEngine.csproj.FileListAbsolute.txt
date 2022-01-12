@@ -1,0 +1,8 @@
+C:\_OwnWorkspace\Projects\StringSearchEngine\obj\Release\net45\StringSearchEngine.csproj.AssemblyReference.cache
+C:\_OwnWorkspace\Projects\StringSearchEngine\obj\Release\net45\StringSearchEngine.AssemblyInfoInputs.cache
+C:\_OwnWorkspace\Projects\StringSearchEngine\obj\Release\net45\StringSearchEngine.AssemblyInfo.cs
+C:\_OwnWorkspace\Projects\StringSearchEngine\obj\Release\net45\StringSearchEngine.csproj.CoreCompileInputs.cache
+C:\_OwnWorkspace\Projects\StringSearchEngine\bin\Release\net45\Renword.StringSearchEngine.dll
+C:\_OwnWorkspace\Projects\StringSearchEngine\bin\Release\net45\Renword.StringSearchEngine.pdb
+C:\_OwnWorkspace\Projects\StringSearchEngine\obj\Release\net45\Renword.StringSearchEngine.dll
+C:\_OwnWorkspace\Projects\StringSearchEngine\obj\Release\net45\Renword.StringSearchEngine.pdb

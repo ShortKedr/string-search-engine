@@ -1,0 +1,12 @@
+C:\_OwnWorkspace\Projects\StringSearchEngine\obj\Debug\net5.0\StringSearchEngine.csprojAssemblyReference.cache
+C:\_OwnWorkspace\Projects\StringSearchEngine\obj\Debug\net5.0\StringSearchEngine.GeneratedMSBuildEditorConfig.editorconfig
+C:\_OwnWorkspace\Projects\StringSearchEngine\obj\Debug\net5.0\StringSearchEngine.AssemblyInfoInputs.cache
+C:\_OwnWorkspace\Projects\StringSearchEngine\obj\Debug\net5.0\StringSearchEngine.AssemblyInfo.cs
+C:\_OwnWorkspace\Projects\StringSearchEngine\obj\Debug\net5.0\StringSearchEngine.csproj.CoreCompileInputs.cache
+C:\_OwnWorkspace\Projects\StringSearchEngine\bin\Debug\net5.0\Renword.StringSearchEngine.deps.json
+C:\_OwnWorkspace\Projects\StringSearchEngine\bin\Debug\net5.0\Renword.StringSearchEngine.dll
+C:\_OwnWorkspace\Projects\StringSearchEngine\bin\Debug\net5.0\ref\Renword.StringSearchEngine.dll
+C:\_OwnWorkspace\Projects\StringSearchEngine\bin\Debug\net5.0\Renword.StringSearchEngine.pdb
+C:\_OwnWorkspace\Projects\StringSearchEngine\obj\Debug\net5.0\Renword.StringSearchEngine.dll
+C:\_OwnWorkspace\Projects\StringSearchEngine\obj\Debug\net5.0\ref\Renword.StringSearchEngine.dll
+C:\_OwnWorkspace\Projects\StringSearchEngine\obj\Debug\net5.0\Renword.StringSearchEngine.pdb
