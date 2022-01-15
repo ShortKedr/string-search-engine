@@ -3,7 +3,7 @@
 namespace RenwordDigital.StringSearchEngine {
     public class SearchIndex {
         
-        private const int SearchLength = 3;
+        public const int SearchLength = 3;
         
         private List<Resource> _resources = new List<Resource>(16);
         private HashSet<Resource> _resourcesCache = new HashSet<Resource>();
