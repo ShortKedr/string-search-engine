@@ -59,7 +59,7 @@ namespace RenwordDigital.StringSearchEngine {
 
         public List<Resource> GetSearchResult(string searchString) {
             List<Resource> foundResources = new List<Resource>(_searchBucket);
-            string[] searchEntries = searchString.Split(' ');
+            string[] searchEntries = searchString.ToLower().Split(' ');
 
             for (int i = 0; i < searchEntries.Length; i++) {
                 if (_searchCache.ContainsKey(searchEntries[i])) {
