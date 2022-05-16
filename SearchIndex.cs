@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml;
 
 namespace RenwordDigital.StringSearchEngine {
     public class SearchIndex {
@@ -59,11 +60,17 @@ namespace RenwordDigital.StringSearchEngine {
 
         public List<Resource> GetSearchResult(string searchString) {
             List<Resource> foundResources = new List<Resource>(_searchBucket);
+            HashSet<Resource> foundResourcesHash = new HashSet<Resource>();
             string[] searchEntries = searchString.ToLower().Split(' ');
 
             for (int i = 0; i < searchEntries.Length; i++) {
                 if (_searchCache.ContainsKey(searchEntries[i])) {
-                    foundResources.AddRange(_searchCache[searchEntries[i]]);
+                    List<Resource> entries = _searchCache[searchEntries[i]];
+                    for (int j = 0; j < entries.Count; j++) {
+                        if (foundResourcesHash.Contains(entries[j])) continue;
+                        foundResourcesHash.Add(entries[j]);
+                        foundResources.Add(entries[j]);
+                    }
                 }
             }
 
