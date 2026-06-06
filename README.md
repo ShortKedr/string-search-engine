@@ -6,9 +6,9 @@ The main idea is simple:
 
 > Build the index once, search many times.
 
-Instead of scanning every resource with `string.Contains()` on every query, the library precomputes searchable keys and stores them in an inverted index. This makes repeated search queries much faster for mostly-static datasets.
+Instead of scanning every resource with `string.Contains()` on every query, the library precomputes searchable keys and stores them in an inverted index. This makes repeated search queries much faster[...]
 
-This is not intended to be a universal replacement for `string.Contains()`. It is a specialized data structure for cases where resources are stable, search is frequent, and predictable query performance matters.
+This is not intended to be a universal replacement for `string.Contains()`. It is a specialized data structure for cases where resources are stable, search is frequent, and predictable query perfo[...]
 
 ---
 
@@ -26,7 +26,7 @@ foreach (var resource in resources)
 
 This is simple and works well for small datasets.
 
-However, when the dataset grows and search happens often, for example in a command palette, asset browser, product list, settings search, file search, or autocomplete UI, scanning every string on every input becomes wasteful.
+However, when the dataset grows and search happens often, for example in a command palette, asset browser, product list, settings search, file search, or autocomplete UI, scanning every string on [...]
 
 `SearchIndex` solves this by building a lookup structure ahead of time:
 
@@ -35,6 +35,46 @@ Dictionary<string, List<Resource>>
 ```
 
 At search time, a query can be resolved with dictionary lookups instead of a full linear scan.
+
+---
+
+## Usage example
+
+Here's a basic example of using `SearchIndex`:
+
+```csharp
+// Create an index
+var searchIndex = new SearchIndex();
+
+// Add resources to be searchable
+var resources = new Resource[]
+{
+    new Resource("Cyber Angel"),
+    new Resource("Triangle"),
+    new Resource("Angel Sanctuary")
+};
+
+searchIndex.SetResources(resources);
+
+// Search by query string
+var results = searchIndex.GetSearchResult("angel");
+
+// results now contains resources matching "angel"
+foreach (var resource in results)
+{
+    Debug.Log(resource.Name);
+}
+```
+
+You can also add or remove resources incrementally:
+
+```csharp
+var newResource = new Resource("Archangel");
+searchIndex.AddResource(newResource);
+
+// Remove a resource
+searchIndex.RemoveResource(resources[0]);
+```
 
 ---
 
