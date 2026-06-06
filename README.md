@@ -8,7 +8,22 @@ The main idea is simple:
 
 Instead of scanning every resource with `string.Contains()` on every query, the library precomputes searchable keys and stores them in an inverted index. This makes repeated search queries much faster.
 
-This is not intended to be a universal replacement for `string.Contains()`. It is a specialized data structure for cases where resources are stable, search is frequent, and predictable query performance is valuable.
+This is not intended to be a universal replacement for `string.Contains()`. It is a specialized data structure for cases where resources are stable, search is frequent, and predictable query performance is important.
+
+---
+
+## Compatibility
+
+This library is **platform and runtime agnostic**. It has no external dependencies and works across modern .NET platforms:
+
+- **.NET Standard 2.0**: Compatible with .NET Framework 4.6.1+ and all modern .NET Core/5+ versions
+- **.NET 8.0**: Full support for the latest .NET runtime
+
+**Use in any environment:**
+- ✅ Unity (via netstandard2.0 target)
+- ✅ .NET Framework (4.6.1+)
+- ✅ .NET Core / .NET 5+
+- ✅ Any platform implementing .NET Standard 2.0
 
 ---
 
