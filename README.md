@@ -6,9 +6,9 @@ The main idea is simple:
 
 > Build the index once, search many times.
 
-Instead of scanning every resource with `string.Contains()` on every query, the library precomputes searchable keys and stores them in an inverted index. This makes repeated search queries much faster[...]
+Instead of scanning every resource with `string.Contains()` on every query, the library precomputes searchable keys and stores them in an inverted index. This makes repeated search queries much faster.
 
-This is not intended to be a universal replacement for `string.Contains()`. It is a specialized data structure for cases where resources are stable, search is frequent, and predictable query perfo[...]
+This is not intended to be a universal replacement for `string.Contains()`. It is a specialized data structure for cases where resources are stable, search is frequent, and predictable query performance is valuable.
 
 ---
 
@@ -26,7 +26,7 @@ foreach (var resource in resources)
 
 This is simple and works well for small datasets.
 
-However, when the dataset grows and search happens often, for example in a command palette, asset browser, product list, settings search, file search, or autocomplete UI, scanning every string on [...]
+However, when the dataset grows and search happens often, for example in a command palette, asset browser, product list, settings search, file search, or autocomplete UI, scanning every string on every query becomes a bottleneck.
 
 `SearchIndex` solves this by building a lookup structure ahead of time:
 
@@ -155,7 +155,7 @@ public class Resource
 
 Resources are treated as immutable search entries.
 
-If the searchable text must change, remove the old resource and add a new one.
+If the searchable text must change, remove the old resource and add a new one:
 
 ```csharp
 index.RemoveResource(oldResource);
@@ -167,11 +167,12 @@ Important behavior:
 - `Resource` is compared by reference unless equality is overridden.
 - Two different `Resource` instances with the same name are treated as different resources.
 - `Name` and `SearchString` should be non-null.
+- Each term in `SearchString` (space-separated) must be at least 3 characters long. Terms shorter than 3 characters will throw `InvalidResourceLengthException`.
 - Search data should not be mutated outside the index.
 
 ---
 
-## Existing index idea
+## How the index works
 
 The current implementation generates substring keys for every resource and stores them in a dictionary:
 
@@ -179,31 +180,29 @@ The current implementation generates substring keys for every resource and store
 Dictionary<string, List<Resource>> _searchCache;
 ```
 
-For a resource like:
+### Indexing process
 
-```text
-Cyber Angel
-```
+1. Each resource's `SearchString` is split by spaces into individual terms.
+2. For each term with 3+ characters, all contiguous substrings are generated and stored as lowercase keys.
+3. For example, "Cyber" (5 characters) generates these keys:
+   - Length 5: `cyber`
+   - Length 4: `cybe`, `yber`
+   - Length 3: `cyb`, `ybe`, `ber`
+4. Terms shorter than 3 characters are stored as-is (but not used to generate substrings).
+5. Each key maps to a list of resources containing that substring.
 
-the index can store searchable parts such as:
+### Search process
 
-```text
-cyber
-cybe
-cbe...
-angel
-ange
-ngel
-...
-```
+1. The search string is normalized (lowercased) and split by spaces.
+2. Each search token is looked up directly in the dictionary.
+3. Results are deduplicated—each resource appears only once even if it matches multiple tokens.
+4. Resources are returned in the order they were found.
 
-Then a query can be resolved by checking whether the key exists in the dictionary.
-
+**Example:**
 ```csharp
-if (_searchCache.TryGetValue(token, out var resources))
-{
-    results.AddRange(resources);
-}
+Query: "and"
+Resources: ["TimeAndProgressManager", "TimeHandler", ...]
+Match: "and" is found as a substring in keys for "TimeAndProgressManager"
 ```
 
 ---
@@ -214,66 +213,72 @@ The current implementation is intentionally simple and should document its limit
 
 ### 1. Minimum search length
 
-The current substring index is based on a minimum search length, usually `3`.
+The substring index operates on a minimum search length of **3 characters**.
 
-That means short partial queries such as:
-
+Short queries such as:
 ```text
 a
 an
 ```
 
-may not work as expected when they are only part of a longer word.
+may not work as expected if they are only partial matches within longer words. However, exact space-separated terms shorter than 3 characters are still indexed and searchable.
 
-### 2. Duplicate results
+### 2. Requires fixed-size terms
 
-A resource can appear multiple times if it matches multiple query tokens.
+Resources must be composed of terms at least 3 characters long (space-separated). If a resource contains a term shorter than 3 characters, an `InvalidResourceLengthException` is thrown during indexing.
+
+### 3. Space-separated term splitting
+
+The index splits both resources and search queries by spaces. Punctuation and special characters attached to words are treated as part of the word.
+
+Example: `"Cyber-Angel"` is indexed as a single term, not split by the hyphen.
+
+### 4. Duplicate results
+
+A resource can appear multiple times in results if it matches multiple query tokens.
 
 Example:
-
 ```text
-Query: cyber angel
-Resource: Cyber Angel
+Query: "cyber angel"
+Resource: "Cyber Angel"
 ```
 
 The same resource can be returned once for `cyber` and once for `angel`.
 
-A general-purpose version should deduplicate results by default.
+A general-purpose version should deduplicate results by default (this is already implemented internally via `HashSet<Resource>`).
 
-### 3. No ranking by default
+### 5. No ranking by default
 
 The current implementation returns resources in the order they are stored inside index buckets.
 
 It does not know that:
-
 ```text
 Angel
 ```
 
 is probably a better result for query:
-
 ```text
 angel
 ```
 
 than:
-
 ```text
 Triangle
 ```
 
 even though both may contain the same substring.
 
-### 4. Not identical to `string.Contains()`
+### 6. Not identical to `string.Contains()`
 
 The index works on normalized tokens and generated keys. It is not guaranteed to behave exactly like `string.Contains()` over the full original string.
 
-For example, cross-word matches and punctuation-sensitive matches depend on tokenizer and normalizer behavior.
+For example:
+- It matches substrings only within space-separated terms
+- Case is normalized (all lowercase)
+- Punctuation-sensitive matches depend on how terms are space-separated
 
-### 5. Memory tradeoff
+### 7. Memory tradeoff
 
 Precomputing substrings increases memory usage.
 
-Long tokens generate many keys, so large datasets should use a carefully selected indexing mode.
-
----
+For a term of length N, approximately `(N-2) * (N+1) / 2` substring keys are generated. Long tokens in large datasets should be carefully considered, as memory usage can grow significantly.
