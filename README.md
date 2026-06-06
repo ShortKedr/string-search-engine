@@ -1,4 +1,4 @@
-# String Search Engine
+# RenwordDigital String Search Engine
 
 A lightweight, embeddable, general-purpose search index for C# applications.
 
